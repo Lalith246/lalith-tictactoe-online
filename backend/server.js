@@ -1,5 +1,5 @@
 import express from "express";
-import { createServer } from "http";
+import { createServer } from "node:http";
 import { Server } from "socket.io";
 
 const app = express();
@@ -208,6 +208,9 @@ function checkWinner(board) {
   return null;
 }
 
+// const PORT = Number(process.env.PORT);
+
 server.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log("BOUND ADDRESS:", server.address());
+  console.log("PORT ENV:", PORT);
 });
