@@ -7,9 +7,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: [
-      "https://lalith-tictactoe-online-git-main-lalith-kanakamedalas-projects.vercel.app/",
-    ],
+    origin: ["https://lalith-tictactoe-online.vercel.app/"],
     methods: ["GET", "POST"],
   },
 });
