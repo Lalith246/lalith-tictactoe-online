@@ -6,7 +6,12 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://your-frontend-url.vercel.app", // We'll update this later
+      "https://*.vercel.app", // Allow any vercel subdomain
+    ],
+    methods: ["GET", "POST"],
   },
 });
 const PORT = process.env.PORT || 5678;
@@ -143,21 +148,21 @@ io.on("connection", (socket) => {
 // Helper function to clean up a game
 function cleanupGame(gameId) {
   if (!games.has(gameId)) return;
-  
+
   const game = games.get(gameId);
   console.log(`Cleaning up game: ${gameId}`);
-  
+
   // Remove all sockets from game tracking
   for (const [socketId, gameIdForSocket] of socketToGame.entries()) {
     if (gameIdForSocket === gameId) {
       socketToGame.delete(socketId);
     }
   }
-  
+
   // Clear the socket room (sockets will automatically leave when they disconnect)
   // Remove game from memory
   games.delete(gameId);
-  
+
   console.log(`Game ${gameId} cleaned up. Active games: ${games.size}`);
 }
 
@@ -168,15 +173,15 @@ function handlePlayerDisconnect(socketId) {
     socketToGame.delete(socketId);
     return;
   }
-  
+
   const game = games.get(gameId);
   console.log(`Player disconnected from game: ${gameId}`);
-  
+
   // Notify other player in the room
   io.to(gameId).emit("PLAYER_DISCONNECTED", {
-    message: "Your opponent has disconnected"
+    message: "Your opponent has disconnected",
   });
-  
+
   // Clean up the game immediately when a player disconnects
   cleanupGame(gameId);
 }

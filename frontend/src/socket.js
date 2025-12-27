@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-// "undefined" means the URL will be computed from the `window.location` object
-const URL = "http://localhost:5678";
+// Use environment variable or fallback to localhost
+const SOCKET_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5678";
 
-export const socket = io(URL);
+export const socket = io(SOCKET_URL);
