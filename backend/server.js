@@ -8,9 +8,7 @@ const server = createServer(app);
 const io = new Server(server, {
   cors: {
     origin: [
-      "http://localhost:3000",
-      "https://your-frontend-url.vercel.app", // We'll update this later
-      "https://*.vercel.app", // Allow any vercel subdomain
+      "https://lalith-tictactoe-online-git-main-lalith-kanakamedalas-projects.vercel.app/",
     ],
     methods: ["GET", "POST"],
   },
